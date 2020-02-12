@@ -15,13 +15,7 @@ bool operator==(const DronesManager::DroneRecord& lhs, const DronesManager::Dron
 }
 
 unsigned int DronesManager::get_size() const {
-	DroneRecord* curr = first;
-	int count = 0;
-	while (curr) {
-		count++;
-		curr = curr->next;
-	}
-	return count;
+	return size;
 }
 
 bool DronesManager::empty() const {
