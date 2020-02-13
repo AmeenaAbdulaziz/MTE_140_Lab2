@@ -47,12 +47,59 @@ public:
 	
 	// PURPOSE: replace() and reverse_list() work properly
 	bool test5() {
-	    return false;
+		DronesManager manager1, manager2, stub;
+		//stub hold droneRecord for comparison
+		stub.insert_front(DronesManager::DroneRecord(5));
+		//trying to replace in an empty list
+		ASSERT_FALSE(manager1.replace(0, DronesManager::DroneRecord(5)))
+
+		for (int i = 0; i < 5; i++) {//requires test6 to work
+			manager1.insert_back(DronesManager::DroneRecord(i));
+			manager2.insert_front(DronesManager::DroneRecord(i));
+		}
+
+		manager2.reverse_list();
+		//testing indices 0-1
+		ASSERT_TRUE(manager1.first == manager2.first)
+		ASSERT_TRUE(manager1.first->next == manager2.first->next)
+		//testing indices 3-4
+		ASSERT_TRUE(manager1.last == manager2.last)
+		ASSERT_TRUE(manager1.last->prev == manager2.last->prev)
+		//testing that beginning/end pointers
+		ASSERT_TRUE(manager1.first->prev == NULL && manager1.last->next == NULL)
+		ASSERT_TRUE(manager2.first->prev == NULL && manager2.last->next == NULL)
+
+		//testing with valid index
+		ASSERT_TRUE(manager1.replace(1, DronesManager::DroneRecord(5)))
+		ASSERT_TRUE(manager1.first->next == stub.first)
+		//testing with invalid index
+		ASSERT_FALSE(manager1.replace(8, DronesManager::DroneRecord(5)))
+		//size should be the same
+		ASSERT_TRUE(manager1.get_size() == manager2.get_size())
+			
+		return true;
 	}
 	
 	// PURPOSE: insert_front() keeps moving elements forward
 	bool test6() {
-	    return false;
+		DronesManager manager1, last;
+		int size = 0;
+		//last element of manipulated list (manager1)
+		last.insert_front(DronesManager::DroneRecord(0));
+
+		for (int i = 0; i < 4; i++) {
+			size++;
+			//checks size
+			ASSERT_TRUE(manager1.insert_front(DronesManager::DroneRecord(i)) && manager1.get_size() == size)
+			//checks that beginning/end ptrs are set to NULL
+			ASSERT_TRUE(manager1.first->prev == NULL && manager1.last->next == NULL)
+			//checks that first and last are properly changed
+			ASSERT_TRUE(manager1.first != NULL && manager1.last != NULL)
+			//ensure last doesn't change
+			ASSERT_TRUE(manager1.last == last.first);
+		}
+
+	    	return true;
 	}
 	
 	// PURPOSE: inserting at different positions in the list
@@ -72,7 +119,33 @@ public:
 	    	
 	// PURPOSE: lots of inserts, reverse the list, and then lots of removes until empty
 	bool test10() {
-	   return false;
+		DronesManager manager;
+
+		//inserts from front
+		for (int i = 0; i < 5; i++)
+			ASSERT_TRUE(manager.insert_back(DronesManager::DroneRecord(i)));
+		//inserts from back
+		for (int i = 0; i < 5; i++)
+			ASSERT_TRUE(manager.insert_front(DronesManager::DroneRecord(i)));
+		//inserts elements to index 3
+		for (int i = 0; i < 5; i++)
+			ASSERT_TRUE(manager.insert(DronesManager::DroneRecord(i), 5));
+
+		ASSERT_TRUE(manager.reverse_list());
+
+		//removes elements from index 3
+		for (int i = 0; i < 5; i++)
+			ASSERT_TRUE(manager.remove(5));
+		//removes from back
+		for (int i = 0; i < 5; i++) 
+			ASSERT_TRUE(manager.remove_back());
+		//removes from front
+		for (int i = 0; i < 5; i++)
+			ASSERT_TRUE(manager.remove_front());
+		
+		ASSERT_TRUE (manager.empty() == true)
+
+		return true;
 	} 
 };
 
