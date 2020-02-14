@@ -240,7 +240,6 @@ bool DronesManager::replace(unsigned int index, DroneRecord value) {
 }
 
 bool DronesManager::reverse_list() {
-	bool DronesManager::reverse_list() {
 	if (!first) {
 		return false;
 	}
@@ -258,5 +257,4 @@ bool DronesManager::reverse_list() {
 		first = prev;
 		return true;
 	}
-}
 }
