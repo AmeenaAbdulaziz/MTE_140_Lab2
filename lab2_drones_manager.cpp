@@ -6,10 +6,6 @@ DronesManager::DronesManager() {
 }
 
 DronesManager::~DronesManager() {
-	delete []first->prev;
-	first->prev = NULL;
-	delete []first->next;
-	first->next = NULL;
 	delete first;
 	first = NULL;
 	delete last;
