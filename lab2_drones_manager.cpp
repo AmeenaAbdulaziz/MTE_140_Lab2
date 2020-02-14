@@ -90,14 +90,21 @@ bool DronesManager::insert(DroneRecord value, unsigned int index) {
 }
 
 bool DronesManager::insert_front(DroneRecord value) {
-	if (first){
-		value.next = first;
-		value.prev = NULL;
-		first = new DroneRecord(value); //should be our default copy constructor
-		first->next->prev = first;
-		size++;
-		return true;
-    	}
+	 if (first){
+        value.next = first;
+        value.prev = NULL;
+        first = new DroneRecord(value); //should be our default copy constructor
+        first->next->prev = first;
+        size++;
+        return true;
+    }
+    else {
+        value.prev = NULL;
+        value.next = NULL;
+        first = last = new DroneRecord(value);
+        size++;
+        return true;
+    }
     
 	return false;
 }
