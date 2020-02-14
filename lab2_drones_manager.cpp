@@ -242,6 +242,3 @@ bool DronesManager::replace(unsigned int index, DroneRecord value) {
 bool DronesManager::reverse_list() {
 	return false;
 }
-
-
-
